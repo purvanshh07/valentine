@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Special</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ff66b2; /* Pink background */
+            overflow: hidden;
+            position: relative;
+
+        }
+
+        /* Collage of Images (Positioning on sides) */
+        .collage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow interactions with other elements above */
+        }
+
+      .collage img {
+  position: absolute;
+  width: 180px;  /* Adjust size */
+  height: auto;   /* Maintain aspect ratio */
+}
+
+/* Top-left corner */
+.collage img:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+
+/* Top-right corner */
+.collage img:nth-child(2) {
+  top: 0;
+  right: 0;
+}
+
+/* Bottom-left corner */
+.collage img:nth-child(3) {
+  bottom: 0;
+  left: 0;
+}
+
+/* Bottom-right corner */
+.collage img:nth-child(4) {
+  bottom: 0;
+  right: 0;
+}
+
+/* Center-left edge */
+.collage img:nth-child(5) {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Center-right edge */
+.collage img:nth-child(6) {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+
+ .collage img:nth-child(1) { top: 0; left: 0; }  /* Top-left corner */
+.collage img:nth-child(2) { top: 0; right: 0; }  /* Top-right corner */
+.collage img:nth-child(3) { bottom: 0; left: 0; }  /* Bottom-left corner */
+.collage img:nth-child(4) { bottom: 0; right: 0; }  /* Bottom-right corner */
+.collage img:nth-child(5) { top: 50%; left: 0; transform: translateY(-50%); }  /* Middle-left */
+.collage img:nth-child(6) { top: 50%; right: 0; transform: translateY(-50%); }  /* Middle-right */
+
+        @keyframes collageMovement {
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.2) translate(10px, 10px); }
+            100% { transform: scale(1) translate(0, 0); }
+        }
+
+        /* Container for content */
+        .container {
+            position: relative;
+            padding: 5px;
+            border: 5px solid #ff3399;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 65%;
+            max-width: 1000px;
+            margin-bottom: 100px;
+            z-index: 10;
+        }
+
+        /* Greeting Styles */
+        .greeting {
+            font-size: 2.5rem;
+            color: #ff3399;
+            opacity: 1;
+            transition: opacity 2s ease-out;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Valentine Button Styles */
+        .cta-button {
+            background-color: #ff3399;
+            color: white;
+            font-size: 22px;
+            padding: 15px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            margin-top: 30px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .cta-button::before {
+            content: '❤️';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 22px;
+            animation: floatHearts 2s infinite ease-in-out;
+        }
+
+        .cta-button:hover {
+            background-color: #ff3385;
+        }
+
+        /* Animation for hearts */
+        @keyframes floatHearts {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Choices */
+        .choices {
+            display: none;
+            margin-top: 30px;
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .choiceBtn {
+            background-color: #fff;
+            color: #ff3399;
+            font-size: 18px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 2px solid #ff3399;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .choiceBtn:hover {
+            background-color: #ff3399;
+            color: white;
+        }
+
+        /* Message after choosing */
+        .message, .additional-message, .final-message {
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 2s ease-out;
+            margin-top: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Animations and Photo */
+        .animations {
+            display: none;
+        }
+
+        .photo {
+            display: none;
+            width: 300px;
+            height: auto;
+            margin-top: 30px;
+            border-radius: 15px;
+            border: 5px solid #ff3399;
+
+
+        }
+
+        /* Text under photo */
+        .romantic-text {
+            font-size: 1.5rem;
+            color: #ff3399;
+            margin-top: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Final Message Styles */
+        .final-message {
+            font-size: 1.5rem;
+            color: #ff3399;
+            opacity: 0;
+            transition: opacity 2s ease-out;
+            margin-top: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="collage">
+    <!-- Add your images to the collage by updating the paths -->
+    <img src="image8.jpg" alt="collage-image">
+    <img src="image2.jpg" alt="collage-image">
+    <img src="image3.jpg" alt="collage-image">
+    <img src="image4.jpg" alt="collage-image">
+    <img src="image5.jpg" alt="collage-image">
+    <img src="image6.jpg" alt="collage-image">
+        <img src="image7.jpg" alt="collage-image">
+</div>
+
+<div class="container">
+    <!-- Greeting Message -->
+    <div class="greeting">Hey Parineeta! I really like you btw! 😚</div>
+
+    <!-- Button to Proceed -->
+    <button class="cta-button" id="ctaButton">
+        Will you be my Valentine? ❤️
+    </button>
+
+    <!-- Choices for User -->
+    <div class="choices">
+        <button class="choiceBtn" id="yesBtn">Yes</button>
+        <button class="choiceBtn" id="maybeBtn">Dekhte hain (Maybe)</button>
+    </div>
+
+    <!-- Messages after Choice -->
+    <div class="message" id="message1"></div>
+    <div class="additional-message" id="message2"></div>
+    <div class="final-message" id="finalMessage"></div>
+    <div class="romantic-text" id="romanticText"></div>
+
+    <!-- Photo Section -->
+    <img src="image9.jpg" class="photo" id="photo" />
+</div>
+
+<script>
+    const greeting = document.querySelector('.greeting');
+    const button = document.getElementById('ctaButton');
+    const choices = document.querySelector('.choices');
+    const yesBtn = document.getElementById('yesBtn');
+    const maybeBtn = document.getElementById('maybeBtn');
+    const message1 = document.getElementById('message1');
+    const message2 = document.getElementById('message2');
+    const finalMessage = document.getElementById('finalMessage');
+    const romanticText = document.getElementById('romanticText');
+    const photo = document.getElementById('photo');
+
+    // Show 'Will you be my Valentine?' button after greeting
+    setTimeout(() => {
+        greeting.style.opacity = 0;
+        button.style.display = 'block';
+    }, 3000);
+
+    // Show choices after button click
+    button.addEventListener('click', () => {
+        button.style.display = 'none';
+        choices.style.display = 'block';
+    });
+
+    // Yes choice selected
+    yesBtn.addEventListener('click', () => {
+        choices.style.display = 'none';
+        message1.innerText = 'Thanks for being not so nonchalant, babe!';
+        message1.style.opacity = 1;
+
+        setTimeout(() => {
+            message1.style.opacity = 0;
+            message2.innerText = 'Maybe not good with arts and crafts, but maybe with something else... (You)';
+            message2.style.opacity = 1;
+        }, 3000);
+
+        setTimeout(() => {
+            message2.style.opacity = 0;
+            finalMessage.innerText = 'Really love you, babe! Thank you for agreeing to be my Valentine. ❤️';
+            finalMessage.style.opacity = 1;
+        }, 6000);
+
+        setTimeout(() => {
+            finalMessage.style.opacity = 0;
+            romanticText.innerText = 'Babe, will you marry me? ;)';
+            romanticText.style.opacity = 1;
+        }, 9000);
+
+        // Show photo after all messages
+        setTimeout(() => {
+            romanticText.style.opacity = 0;
+            photo.style.display = 'block';
+            romanticText.innerText = 'Together forever, my love!';
+            romanticText.style.opacity = 1;
+        }, 12000);
+    });
+
+    // Maybe choice selected
+    maybeBtn.addEventListener('click', () => {
+        choices.style.display = 'none';
+        message1.innerText = 'Thanks for being not so nonchalant, babe!';
+        message1.style.opacity = 1;
+
+        setTimeout(() => {
+            message1.style.opacity = 0;
+            message2.innerText = 'Maybe not good with arts and crafts, but maybe with something else... (You)';
+            message2.style.opacity = 1;
+        }, 3000);
+
+       setTimeout(() => {
+    message2.style.opacity = 0;
+
+    // Adding a small delay to ensure message2 is completely hidden before finalMessage is shown
+    setTimeout(() => {
+        finalMessage.innerText = 'Really love you, babe! Thank you for being my valentine and I am very grateful to have you as my valentine. ❤️';
+        finalMessage.style.opacity = 1;
+    }, 500);  // Small delay of 500ms before finalMessage shows up
+}, 6000); // Keep the original delay to hide message2
+;
+
+        setTimeout(() => {
+            finalMessage.style.opacity = 0;
+            romanticText.innerText = 'I know no marrying me after watching mrs. but I hope you can marrow me 😉;)';
+            romanticText.style.opacity = 1;
+        }, 9000);
+
+        // Show photo after all messages
+        setTimeout(() => {
+            romanticText.style.opacity = 0;
+            photo.style.display = 'block';
+          romanticText.innerText = 'Together forever, in the same state in the same city in the same house and in the same BED. This ain\'t an apology but baby I know ki I do mess up sometimes but baat ye hai ki baby I love the way you are always cute, happy, and excited to talk to me and love me. I think we should go out and watch a movie and have so much fun like we did last time. I hope we can always stay like this forever and I think we should get married at least. LOVE YOU THE MOST MY LITTLE BABYYYY. HAPPY Valentines day too!';
+
+            romanticText.style.opacity = 1;
+        }, 12000);
+    });
+</script>
+
+</body>
+</html>
